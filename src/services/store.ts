@@ -5,17 +5,26 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-import stellarBurgerSlice from '../slices/stellarBurgerSlice';
+import constructorSlice from '../slices/constructorSlice';
+import feedSlice from '../slices/feedSlice';
+import ingredientsSlice from '../slices/ingredientsSlice';
+import orderSlice from '../slices/orderSlice';
+import ordersSlice from '../slices/ordersSlice';
+import userSlice from '../slices/userSlice';
 
 const store = configureStore({
   reducer: {
-    stellarBurger: stellarBurgerSlice
+    ingredients: ingredientsSlice,
+    burgerConstructor: constructorSlice,
+    feed: feedSlice,
+    order: orderSlice,
+    orders: ordersSlice,
+    user: userSlice
   },
   devTools: process.env.NODE_ENV !== 'production'
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-
 export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch: () => AppDispatch = dispatchHook;

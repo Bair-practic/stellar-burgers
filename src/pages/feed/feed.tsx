@@ -3,12 +3,8 @@ import { FeedUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../services/store';
-import {
-  fetchFeed,
-  fetchIngredients,
-  removeOrders,
-  selectOrders
-} from '../../slices/stellarBurgerSlice';
+import { fetchFeed, removeOrders, selectOrders } from '../../slices/feedSlice';
+import { fetchIngredients } from '../../slices/ingredientsSlice';
 
 export const Feed: FC = () => {
   const orders: TOrder[] = useAppSelector(selectOrders);

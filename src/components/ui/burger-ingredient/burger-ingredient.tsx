@@ -6,7 +6,7 @@ import {
 import React, { FC, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../../services/store';
-import { openModal } from '../../../slices/stellarBurgerSlice';
+import { openModal } from '../../../slices/orderSlice';
 import styles from './burger-ingredient.module.css';
 
 import { TBurgerIngredientUIProps } from './type';

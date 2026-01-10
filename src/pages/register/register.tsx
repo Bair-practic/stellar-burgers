@@ -8,8 +8,8 @@ import {
   getUserThunk,
   removeErrorText,
   selectErrorText,
-  selectLoading
-} from '../../slices/stellarBurgerSlice';
+  selectUserLoading
+} from '../../slices/userSlice';
 import { setCookie } from '../../utils/cookie';
 
 export const Register: FC = () => {
@@ -19,7 +19,7 @@ export const Register: FC = () => {
     email: '',
     password: ''
   });
-  const isLoading = useAppSelector(selectLoading);
+  const isLoading = useAppSelector(selectUserLoading);
   const error = useAppSelector(selectErrorText);
 
   useEffect(() => {

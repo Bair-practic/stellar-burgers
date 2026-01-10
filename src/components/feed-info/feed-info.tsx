@@ -5,7 +5,7 @@ import {
   selectOrders,
   selectTodayOrders,
   selectTotalOrders
-} from '../../slices/stellarBurgerSlice';
+} from '../../slices/feedSlice';
 import { FeedInfoUI } from '../ui/feed-info';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>

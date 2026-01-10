@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../services/store';
-import { selectIngredients } from '../../slices/stellarBurgerSlice';
+import { selectIngredients } from '../../slices/ingredientsSlice';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { Preloader } from '../ui/preloader';
 

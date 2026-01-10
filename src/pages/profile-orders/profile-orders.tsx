@@ -2,12 +2,12 @@ import { Preloader } from '@ui';
 import { ProfileOrdersUI } from '@ui-pages';
 import { FC, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../services/store';
+import { fetchIngredients } from '../../slices/ingredientsSlice';
 import {
-  fetchIngredients,
   fetchUserOrders,
   removeUserOrders,
   selectUserOrders
-} from '../../slices/stellarBurgerSlice';
+} from '../../slices/ordersSlice';
 
 export const ProfileOrders: FC = () => {
   const dispatch = useAppDispatch();

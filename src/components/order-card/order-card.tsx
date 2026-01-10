@@ -2,7 +2,7 @@ import { TIngredient } from '@utils-types';
 import { FC, memo, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../services/store';
-import { selectIngredients } from '../../slices/stellarBurgerSlice';
+import { selectIngredients } from '../../slices/ingredientsSlice';
 import { OrderCardUI } from '../ui/order-card';
 
 import { OrderCardProps } from './type';

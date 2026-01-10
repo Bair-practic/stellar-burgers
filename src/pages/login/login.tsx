@@ -7,8 +7,8 @@ import {
   fetchLoginUser,
   removeErrorText,
   selectErrorText,
-  selectLoading
-} from '../../slices/stellarBurgerSlice';
+  selectUserLoading
+} from '../../slices/userSlice';
 import { setCookie } from '../../utils/cookie';
 
 export const Login: FC = () => {
@@ -18,7 +18,7 @@ export const Login: FC = () => {
     password: ''
   });
   const error = useAppSelector(selectErrorText);
-  const isLoading = useAppSelector(selectLoading);
+  const isLoading = useAppSelector(selectUserLoading);
 
   useEffect(() => {
     dispatch(removeErrorText());

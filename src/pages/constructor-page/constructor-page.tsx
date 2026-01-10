@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { BurgerConstructor, BurgerIngredients } from '../../components';
 import { Preloader } from '../../components/ui';
 import { useAppSelector } from '../../services/store';
-import { selectLoading } from '../../slices/stellarBurgerSlice';
+import { selectLoading } from '../../slices/ingredientsSlice';
 
 import styles from './constructor-page.module.css';
 

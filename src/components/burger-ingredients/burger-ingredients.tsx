@@ -2,7 +2,7 @@ import { TTabMode } from '@utils-types';
 import { FC, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useAppSelector } from '../../services/store';
-import { selectIngredients } from '../../slices/stellarBurgerSlice';
+import { selectIngredients } from '../../slices/ingredientsSlice';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 
 export const BurgerIngredients: FC = () => {

@@ -2,10 +2,9 @@ import { TIngredient } from '@utils-types';
 import { FC, useMemo } from 'react';
 import { redirect, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../services/store';
-import {
-  selectIngredients,
-  selectOrders
-} from '../../slices/stellarBurgerSlice';
+import { selectIngredients } from '../../slices/ingredientsSlice';
+import { selectOrders } from '../../slices/feedSlice';
+import { selectUserOrders } from '../../slices/ordersSlice';
 import { OrderInfoUI } from '../ui/order-info';
 import { Preloader } from '../ui/preloader';
 
@@ -16,11 +15,13 @@ export const OrderInfo: FC = () => {
     return null;
   }
 
-  const orders = useAppSelector(selectOrders);
+  const feedOrders = useAppSelector(selectOrders);
+  const userOrders = useAppSelector(selectUserOrders);
 
-  const orderData = orders.find(
-    (item) => item.number === parseInt(params.number!)
-  );
+  const orderData =
+    feedOrders.find((item) => item.number === parseInt(params.number!)) ||
+    (userOrders &&
+      userOrders.find((item) => item.number === parseInt(params.number!)));
 
   const ingredients: TIngredient[] = useAppSelector(selectIngredients);
 

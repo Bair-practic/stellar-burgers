@@ -1,7 +1,7 @@
 import { TIngredient } from '@utils-types';
 import { forwardRef, useMemo } from 'react';
 import { useAppSelector } from '../../services/store';
-import { selectConstructorItems } from '../../slices/stellarBurgerSlice';
+import { selectConstructorItems } from '../../slices/constructorSlice';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
 import { TIngredientsCategoryProps } from './type';
 
@@ -12,13 +12,14 @@ export const IngredientsCategory = forwardRef<
   const burgerConstructor = useAppSelector(selectConstructorItems);
 
   const ingredientsCounters = useMemo(() => {
+    if (!burgerConstructor) return {};
     const { bun, ingredients } = burgerConstructor;
     const counters: { [key: string]: number } = {};
     ingredients.forEach((ingredient: TIngredient) => {
       if (!counters[ingredient._id]) counters[ingredient._id] = 0;
       counters[ingredient._id]++;
     });
-    if (bun) counters[bun._id!] = 2;
+    if (bun && bun._id) counters[bun._id] = 2;
     return counters;
   }, [burgerConstructor]);
 

@@ -20,17 +20,17 @@ import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import '../../index.css';
 import { useAppDispatch, useAppSelector } from '../../services/store';
+import { fetchFeed, selectOrders } from '../../slices/feedSlice';
 import {
-  closeModal,
-  fetchFeed,
   fetchIngredients,
+  selectIngredients
+} from '../../slices/ingredientsSlice';
+import { closeModal, selectIsModalOpened } from '../../slices/orderSlice';
+import {
   getUserThunk,
   init,
-  selectIngredients,
-  selectIsAuthenticated,
-  selectIsModalOpened,
-  selectOrders
-} from '../../slices/stellarBurgerSlice';
+  selectIsAuthenticated
+} from '../../slices/userSlice';
 import { deleteCookie, getCookie } from '../../utils/cookie';
 import styles from './app.module.css';
 

@@ -4,14 +4,14 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../services/store';
 import {
   fetchUpdateUser,
-  selectLoading,
-  selectUser
-} from '../../slices/stellarBurgerSlice';
+  selectUser,
+  selectUserLoading
+} from '../../slices/userSlice';
 
 export const Profile: FC = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
-  const isLoading = useAppSelector(selectLoading);
+  const isLoading = useAppSelector(selectUserLoading);
 
   const [formValue, setFormValue] = useState({
     name: user.name,

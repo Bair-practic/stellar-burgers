@@ -1,9 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../services/store';
-import {
-  selectIsAuthenticated,
-  selectIsInit
-} from '../../slices/stellarBurgerSlice';
+import { selectIsAuthenticated, selectIsInit } from '../../slices/userSlice';
 import { Preloader } from '../ui/preloader';
 
 type ProtectedRouteProps = {
