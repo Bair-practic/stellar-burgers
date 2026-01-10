@@ -17,7 +17,7 @@ import {
   ResetPassword
 } from '@pages';
 import { useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import '../../index.css';
 import { useAppDispatch, useAppSelector } from '../../services/store';
 import { fetchFeed, selectOrders } from '../../slices/feedSlice';
@@ -37,8 +37,8 @@ import styles from './app.module.css';
 export const App = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const backgroundLocation = location.state?.background;
-  const isModalOpened = useAppSelector(selectIsModalOpened);
   const token = getCookie('accessToken');
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const ingredients = useAppSelector(selectIngredients);
@@ -58,19 +58,18 @@ export const App = () => {
     } else {
       dispatch(init());
     }
-  }, []);
+  }, [dispatch, isAuthenticated, token]);
 
   useEffect(() => {
-    if (!ingredients.length) {
-      dispatch(fetchIngredients());
-    }
-  }, []);
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   useEffect(() => {
-    if (!feed.length) {
+    const path = location.pathname;
+    if (path === '/feed' || path.startsWith('/feed/')) {
       dispatch(fetchFeed());
     }
-  }, []);
+  }, [dispatch, location.pathname]);
 
   return (
     <div className={styles.app}>
@@ -139,8 +138,8 @@ export const App = () => {
         />
       </Routes>
 
-      {isModalOpened && backgroundLocation && (
-        <Routes>
+      {backgroundLocation && (
+        <Routes location={location}>
           <Route
             path='/ingredients/:id'
             element={
@@ -148,6 +147,7 @@ export const App = () => {
                 title={'Описание ингредиента'}
                 onClose={() => {
                   dispatch(closeModal());
+                  navigate(-1);
                 }}
               >
                 <IngredientDetails />
@@ -162,6 +162,7 @@ export const App = () => {
                   title={'Заказ'}
                   onClose={() => {
                     dispatch(closeModal());
+                    navigate(-1);
                   }}
                 >
                   <OrderInfo />
@@ -176,6 +177,7 @@ export const App = () => {
                 title={'Заказ'}
                 onClose={() => {
                   dispatch(closeModal());
+                  navigate(-1);
                 }}
               >
                 <OrderInfo />

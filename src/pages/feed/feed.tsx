@@ -11,8 +11,8 @@ export const Feed: FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    Promise.all([dispatch(fetchIngredients()), dispatch(fetchFeed())]);
-  }, []);
+    dispatch(fetchFeed());
+  }, [dispatch]);
 
   if (!orders.length) {
     return <Preloader />;
