@@ -1,21 +1,54 @@
-import { FC, useMemo } from 'react';
-import { Preloader } from '../ui/preloader';
-import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import { FC, useEffect, useMemo } from 'react';
+import { redirect, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../services/store';
+import { selectIngredients } from '../../slices/ingredientsSlice';
+import { selectOrders } from '../../slices/feedSlice';
+import {
+  getOrderByNumber,
+  selectOrderByNumber,
+  selectUserOrders
+} from '../../slices/ordersSlice';
+import { OrderInfoUI } from '../ui/order-info';
+import { Preloader } from '../ui/preloader';
 
 export const OrderInfo: FC = () => {
-  /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const params = useParams<{ number: string }>();
+  const dispatch = useAppDispatch();
 
-  const ingredients: TIngredient[] = [];
+  if (!params.number) {
+    redirect('/feed');
+    return null;
+  }
+
+  const orderNumber = parseInt(params.number!);
+  const feedOrders = useAppSelector(selectOrders);
+  const userOrders = useAppSelector(selectUserOrders);
+  const orderByNumber = useAppSelector(selectOrderByNumber);
+
+  const ingredients: TIngredient[] = useAppSelector(selectIngredients);
+
+  useEffect(() => {
+    if (!orderNumber) return;
+
+    const orderInFeed = feedOrders.find((item) => item.number === orderNumber);
+    const orderInUser = userOrders?.find((item) => item.number === orderNumber);
+    const orderByNum =
+      orderByNumber && orderByNumber.number === orderNumber
+        ? orderByNumber
+        : null;
+
+    if (!orderInFeed && !orderInUser && !orderByNum) {
+      dispatch(getOrderByNumber(orderNumber));
+    }
+  }, [dispatch, orderNumber, feedOrders, userOrders, orderByNumber]);
+
+  const orderData =
+    feedOrders.find((item) => item.number === orderNumber) ||
+    (userOrders && userOrders.find((item) => item.number === orderNumber)) ||
+    (orderByNumber && orderByNumber.number === orderNumber
+      ? orderByNumber
+      : null);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
@@ -63,5 +96,15 @@ export const OrderInfo: FC = () => {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} />;
+  return (
+    <>
+      <p
+        className='text text_type_digits-default'
+        style={{ textAlign: 'center' }}
+      >
+        #{params.number}
+      </p>
+      <OrderInfoUI orderInfo={orderInfo} />
+    </>
+  );
 };

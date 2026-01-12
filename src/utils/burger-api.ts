@@ -1,5 +1,5 @@
-import { setCookie, getCookie } from './cookie';
-import { TIngredient, TOrder, TOrdersData, TUser } from './types';
+import { getCookie, setCookie } from './cookie';
+import { TIngredient, TOrder, TUser } from './types';
 
 const URL = process.env.BURGER_API_URL;
 
@@ -137,7 +137,7 @@ export type TRegisterData = {
   password: string;
 };
 
-type TAuthResponse = TServerResponse<{
+export type TAuthResponse = TServerResponse<{
   refreshToken: string;
   accessToken: string;
   user: TUser;
@@ -223,13 +223,14 @@ export const updateUserApi = (user: Partial<TRegisterData>) =>
     body: JSON.stringify(user)
   });
 
-export const logoutApi = () =>
+export const logoutApi = (accessToken?: string, refreshToken?: string) =>
   fetch(`${URL}/auth/logout`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
-    },
+      'Content-Type': 'application/json;charset=utf-8',
+      authorization: accessToken || getCookie('accessToken') || ''
+    } as HeadersInit,
     body: JSON.stringify({
-      token: localStorage.getItem('refreshToken')
+      token: refreshToken || localStorage.getItem('refreshToken') || ''
     })
   }).then((res) => checkResponse<TServerResponse<{}>>(res));
