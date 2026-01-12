@@ -29,7 +29,8 @@ import { closeModal, selectIsModalOpened } from '../../slices/orderSlice';
 import {
   getUserThunk,
   init,
-  selectIsAuthenticated
+  selectIsAuthenticated,
+  selectUserLoading
 } from '../../slices/userSlice';
 import { deleteCookie, getCookie } from '../../utils/cookie';
 import styles from './app.module.css';
@@ -39,13 +40,14 @@ export const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const backgroundLocation = location.state?.background;
-  const token = getCookie('accessToken');
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const isLoading = useAppSelector(selectUserLoading);
   const ingredients = useAppSelector(selectIngredients);
   const feed = useAppSelector(selectOrders);
 
   useEffect(() => {
-    if (!isAuthenticated && token) {
+    const token = getCookie('accessToken');
+    if (!isAuthenticated && token && !isLoading) {
       dispatch(getUserThunk())
         .unwrap()
         .then(() => {
@@ -55,10 +57,10 @@ export const App = () => {
           deleteCookie('accessToken');
           localStorage.removeItem('refreshToken');
         });
-    } else {
+    } else if (!isLoading) {
       dispatch(init());
     }
-  }, [dispatch, isAuthenticated, token]);
+  }, [dispatch, isAuthenticated, isLoading]);
 
   useEffect(() => {
     dispatch(fetchIngredients());

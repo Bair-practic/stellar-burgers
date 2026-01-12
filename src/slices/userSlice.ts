@@ -43,8 +43,10 @@ export const getUserThunk = createAsyncThunk('user/get', async () =>
   getUserApi()
 );
 
-export const fetchLogout = createAsyncThunk('user/logout', async () =>
-  logoutApi()
+export const fetchLogout = createAsyncThunk(
+  'user/logout',
+  async (params?: { accessToken?: string; refreshToken?: string }) =>
+    logoutApi(params?.accessToken, params?.refreshToken)
 );
 
 export const fetchUpdateUser = createAsyncThunk(

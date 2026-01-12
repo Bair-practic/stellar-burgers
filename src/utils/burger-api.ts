@@ -223,14 +223,14 @@ export const updateUserApi = (user: Partial<TRegisterData>) =>
     body: JSON.stringify(user)
   });
 
-export const logoutApi = () =>
+export const logoutApi = (accessToken?: string, refreshToken?: string) =>
   fetch(`${URL}/auth/logout`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      authorization: getCookie('accessToken')
+      authorization: accessToken || getCookie('accessToken') || ''
     } as HeadersInit,
     body: JSON.stringify({
-      token: localStorage.getItem('refreshToken')
+      token: refreshToken || localStorage.getItem('refreshToken') || ''
     })
   }).then((res) => checkResponse<TServerResponse<{}>>(res));
